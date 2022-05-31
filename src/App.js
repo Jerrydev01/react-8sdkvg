@@ -5,15 +5,15 @@ import { data } from './Data';
 
 export default function App() {
   // console.log(useState('hello'))
-  const [title, setTitle] = useState(data);
+  const [size, setSize] = useState(window.innerWidth);
+console.log(size)
+useEffect(()=>{
 
+});
   return (
     <>
-      {title.map((person) => {
-      return  <div key={person.id}>
-         <h2>{person.name}</h2>
-        </div>;
-      })}
+<h1>UseEffect cleanup</h1>
+  <h2>{size}px</h2>
     </>
   );
 }
