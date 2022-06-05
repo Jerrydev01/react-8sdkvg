@@ -1,58 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useReducer } from 'react';
 import './style.css';
 
+import Modal from './Modal';
+import { data } from './Data';
+
 const App = () => {
+  const [people, setPeople] = useState(data);
+  const [isShowModal, setIsShowModal] = useState(false);
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [people, setPeople] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (name && email) {
-      const person = { id:new Date().getTime().toString(), name, email };
-      setPeople((people) => {
-        return [...people, person];
-      });
-
-      setName('');
-      setEmail('');
+    setPeople([...people, name, id]);
+    if (name) {
+      setIsShowModal(true);
     } else {
-      console.log('world');
+      setIsShowModal(true);
     }
   };
   return (
     <>
-      <h2>FORMS</h2>
-      <div className="form" onSubmit={handleSubmit}>
-        <form>
-          <label htmlFor="name">Name:</label>
+      <h2>useReducer</h2>
+      {isShowModal && <Modal />}
+
+      <form onSubmit={handleSubmit}>
+        <div>
           <input
             type="text"
-            id="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <br />
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <button type="submit">Submit</button>
-        </form>
-
-        {people.map((person) => {
-          const {id, name, email} = person;
-          return (
-            <div key={id}>
-              <h4>{name}</h4>
-              <p>{email}</p>
-            </div>
-          );
-        })}
-      </div>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
     </>
   );
 };
