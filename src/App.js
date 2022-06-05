@@ -13,7 +13,7 @@ const App = () => {
     e.preventDefault();
     if (name) {
       setShowModal(true);
-      setPeople([...people, name, id]);
+      setPeople([...people, {name, id: new Date().getTime().toString()}]);
       setName('');
     } else {
       SetShowModal(true);
