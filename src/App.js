@@ -11,11 +11,12 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPeople([...people, name, id]);
     if (name) {
       setIsShowModal(true);
+      setPeople([...people, name, id]);
+      setName('');
     } else {
-      setIsShowModal(true);
+      SetIsShowModal(true);
     }
   };
   return (
@@ -33,6 +34,9 @@ const App = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
+      {people.map((person) => {
+        return <div key={id}>{petson.name}</div>;
+      })}
     </>
   );
 };
