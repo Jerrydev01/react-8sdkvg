@@ -6,23 +6,23 @@ import { data } from './Data';
 
 const App = () => {
   const [people, setPeople] = useState(data);
-  const [isShowModal, setIsShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name) {
-      setIsShowModal(true);
+      setShowModal(true);
       setPeople([...people, name, id]);
       setName('');
     } else {
-      SetIsShowModal(true);
+      SetShowModal(true);
     }
   };
   return (
     <>
       <h2>useReducer</h2>
-      {isShowModal && <Modal />}
+      {showModal && <Modal />}
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -35,7 +35,7 @@ const App = () => {
         <button type="submit">Submit</button>
       </form>
       {people.map((person) => {
-        return <div key={id}>{petson.name}</div>;
+        return <div key={person.id}>{person.name}</div>;
       })}
     </>
   );
