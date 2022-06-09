@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
 
-const Modal = () => {
+const Modal = ({modalContent}) => {
   
   return (
     <>
-<h2>Modal</h2>
+<h2>{modalContent}</h2>
     </>
   );
 };
