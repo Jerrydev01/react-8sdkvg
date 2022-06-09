@@ -27,7 +27,7 @@ const defaultState={
 
 const App = () => {
   const [name, setName] = useState('');
-  const [state,dispatch]= useReducer(useReducer,defaultState)
+  const [state,dispatch]= useReducer(reducer,defaultState)
 
   const handleSubmit = (e) => {
     e.preventDefault();
