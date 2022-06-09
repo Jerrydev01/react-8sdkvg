@@ -6,50 +6,62 @@ import { data } from './Data';
 
 // useReducer function
 
-const reducer=(state,action)=>{
-  if(action.type==='ADD_ITEM'){
-    const newPeople=[...state.people,action.payload]
-    return{
+const reducer = (state, action) => {
+  if (action.type === 'ADD_ITEM') {
+    const newPeople = [...state.people, action.payload];
+    return {
       ...state,
-      people:newPeople,
-      isModalOpen:true,
-      modalContent:'add item'
-    }
+      people: newPeople,
+      isModalOpen: true,
+      modalContent: 'add item',
+    };
   }
-  if(action.type==='NO_VALUE'){
-    return {...state,isModalOpen:true,modalContent:'please enter a value'}
+  if (action.type === 'NO_VALUE') {
+    return {
+      ...state,
+      isModalOpen: true,
+      modalContent: 'please enter a value',
+    };
   }
-  if(action.type==="CLOSE_MODAL"){
-    return {...state,isModalOpen:false}
+  if (action.type === 'CLOSE_MODAL') {
+    return { ...state, isModalOpen: false };
   }
-  throw new Error('no matching action')
-}
+  if (action.type === 'REMOVE_ITEM') {
+    const newPersons = state.people.filter(
+      (person) => person.id !== action.payload
+    );
+    return {...state,people:newPersons}
+  }
+  throw new Error('no matching action');
+};
 
-const defaultState={
-  people:[],
-  isModalOpen:false,
-  modalContent:'',
+const defaultState = {
+  people: [],
+  isModalOpen: false,
+  modalContent: '',
 };
 const App = () => {
   const [name, setName] = useState('');
-  const [state,dispatch]= useReducer(reducer,defaultState)
+  const [state, dispatch] = useReducer(reducer, defaultState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name) {
-      const newItem={id: new Date().getTime().toString(),name}
-      dispatch({type:'ADD_ITEM', payload:newItem})
+      const newItem = { id: new Date().getTime().toString(), name };
+      dispatch({ type: 'ADD_ITEM', payload: newItem });
     } else {
-      dispatch({type:'NO_VALUE'})
+      dispatch({ type: 'NO_VALUE' });
     }
   };
-  const closeModal=()=>{
-    dispatch({type:'CLOSE_MODAL'})
-  }
+  const closeModal = () => {
+    dispatch({ type: 'CLOSE_MODAL' });
+  };
   return (
     <>
       <h2>useReducer</h2>
-      {state.isModalOpen && <Modal closeModal={closeModal} modalContent={state.modalContent}/>}
+      {state.isModalOpen && (
+        <Modal closeModal={closeModal} modalContent={state.modalContent} />
+      )}
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -62,7 +74,17 @@ const App = () => {
         <button type="submit">Submit</button>
       </form>
       {state.people.map((person) => {
-        return <div key={person.id}>{person.name}</div>;
+        return (
+          <div key={person.id}>
+            <h3>{person.name}</h3>
+            <button
+              type="button"
+              onClick={() => dispatch({ type: 'REMOVE_ITEM' })}
+            >
+              remove
+            </button>
+          </div>
+        );
       })}
     </>
   );
