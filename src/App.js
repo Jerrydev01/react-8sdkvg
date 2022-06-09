@@ -7,10 +7,11 @@ import { data } from './Data';
 // useReducer function
 
 const reducer=(state,action)=>{
-  if(action.type==='TESTING'){
+  if(action.type==='ADD_ITEM'){
+    const newPeople=[...state.people,action.payload]
     return{
       ...state,
-      people:data,
+      people:newPeople,
       isModalOpen:true,
       modalContent:'add item'
     }
@@ -31,7 +32,8 @@ const App = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name) {
-      dispatch({type:'TESTING'})
+      const newItem={id: new Date().getTime().toString(),name}
+      dispatch({type:'ADD_ITEM', payload:newItem})
     } else {
       dispatch({type:'RANDOM'})
     }
@@ -39,7 +41,7 @@ const App = () => {
   return (
     <>
       <h2>useReducer</h2>
-      {state.isModalOpen && <Modal modalContent={modalContent}/>}
+      {state.isModalOpen && <Modal modalContent={state.modalContent}/>}
 
       <form onSubmit={handleSubmit}>
         <div>
