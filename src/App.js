@@ -79,7 +79,7 @@ const App = () => {
             <h3>{person.name}</h3>
             <button
               type="button"
-              onClick={() => dispatch({ type: 'REMOVE_ITEM' })}
+              onClick={() => dispatch({ type: 'REMOVE_ITEM', payload:person.id })}
             >
               remove
             </button>
