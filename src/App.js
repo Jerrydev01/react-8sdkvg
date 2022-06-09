@@ -19,6 +19,9 @@ const reducer=(state,action)=>{
   if(action.type==='NO_VALUE'){
     return {...state,isModalOpen:true,modalContent:'please enter a value'}
   }
+  if(action.type==="CLOSE_MODAL"){
+    return {...state,isModalOpen:false}
+  }
   throw new Error('no matching action')
 }
 
@@ -27,7 +30,6 @@ const defaultState={
   isModalOpen:false,
   modalContent:'',
 };
-
 const App = () => {
   const [name, setName] = useState('');
   const [state,dispatch]= useReducer(reducer,defaultState)
@@ -41,10 +43,13 @@ const App = () => {
       dispatch({type:'NO_VALUE'})
     }
   };
+  const closeModal=()=>{
+    dispatch({type:'CLOSE_MODAL'})
+  }
   return (
     <>
       <h2>useReducer</h2>
-      {state.isModalOpen && <Modal modalContent={state.modalContent}/>}
+      {state.isModalOpen && <Modal closeModal={closeModal} modalContent={state.modalContent}/>}
 
       <form onSubmit={handleSubmit}>
         <div>
