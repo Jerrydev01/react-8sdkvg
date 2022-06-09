@@ -4,25 +4,42 @@ import './style.css';
 import Modal from './Modal';
 import { data } from './Data';
 
+// useReducer function
+
+const reducer=(state,action)=>{
+  if(action.type==='TESTING'){
+    return{
+      ...state,
+      people:data,
+      isModalOpen:true,
+      modalContent:'add item'
+    }
+  }
+  throw new Error('no matching action type')
+}
+
+const defaultState={
+  people:[],
+  isModalOpen:false,
+  modalContent:'',
+};
+
 const App = () => {
-  const [people, setPeople] = useState(data);
-  const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState('');
+  const [state,dispatch]= useReducer(useReducer,defaultState)
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name) {
-      setShowModal(true);
-      setPeople([...people, {name, id: new Date().getTime().toString()}]);
-      setName('');
+      dispatch({type:'TESTING'})
     } else {
-      SetShowModal(true);
+      dispatch({type:'RANDOM'})
     }
   };
   return (
     <>
       <h2>useReducer</h2>
-      {showModal && <Modal />}
+      {state.isModalOpen && <Modal modalContent={modalContent}/>}
 
       <form onSubmit={handleSubmit}>
         <div>
@@ -34,7 +51,7 @@ const App = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-      {people.map((person) => {
+      {state.people.map((person) => {
         return <div key={person.id}>{person.name}</div>;
       })}
     </>
