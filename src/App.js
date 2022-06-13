@@ -37,6 +37,7 @@ const List = ({ people, handleDelete }) => {
 };
 
 const SinglePerson = ({ id, name, handleDelete }) => {
+  const data=useContext(PersonContext)
   return (
     <>
       <h3>single item</h3>
