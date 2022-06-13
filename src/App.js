@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import './style.css';
 
 import Modal from './Modal';
@@ -16,12 +16,12 @@ const App = () => {
     });
   };
   return (
-    <PersonContext.provider value='hello'>
+    <PersonContext.Provider value='hello'>
       <h1>prop drilling</h1>
       <div>
         <List people={people} handleDelete={handleDelete} />
       </div>
-    </PersonContext.provider>
+    </PersonContext.Provider>
   );
 };
 
