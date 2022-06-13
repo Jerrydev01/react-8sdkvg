@@ -4,6 +4,9 @@ import './style.css';
 import Modal from './Modal';
 import { data } from './Data';
 
+const PersonContext= React.createContext()
+// useContext has two components i.e the Provider and the Consumer
+
 const App = () => {
   const [people, setPeople] = useState(data);
   console.log(people);
@@ -13,12 +16,12 @@ const App = () => {
     });
   };
   return (
-    <>
+    <PersonContext.provider value='hello'>
       <h1>prop drilling</h1>
       <div>
         <List people={people} handleDelete={handleDelete} />
       </div>
-    </>
+    </PersonContext.provider>
   );
 };
 
@@ -37,7 +40,8 @@ const List = ({ people, handleDelete }) => {
 };
 
 const SinglePerson = ({ id, name, handleDelete }) => {
-  const data=useContext(PersonContext)
+  const data=useContext(PersonContext);
+  console.log(data)
   return (
     <>
       <h3>single item</h3>
