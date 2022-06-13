@@ -1,91 +1,49 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState } from 'react';
 import './style.css';
 
 import Modal from './Modal';
 import { data } from './Data';
 
-// useReducer function
-
-const reducer = (state, action) => {
-  if (action.type === 'ADD_ITEM') {
-    const newPeople = [...state.people, action.payload];
-    return {
-      ...state,
-      people: newPeople,
-      isModalOpen: true,
-      modalContent: 'add item',
-    };
-  }
-  if (action.type === 'NO_VALUE') {
-    return {
-      ...state,
-      isModalOpen: true,
-      modalContent: 'please enter a value',
-    };
-  }
-  if (action.type === 'CLOSE_MODAL') {
-    return { ...state, isModalOpen: false };
-  }
-  if (action.type === 'REMOVE_ITEM') {
-    const newPersons = state.people.filter(
-      (person) => person.id !== action.payload
-    );
-    return {...state,people:newPersons}
-  }
-  throw new Error('no matching action');
-};
-
-const defaultState = {
-  people: [],
-  isModalOpen: false,
-  modalContent: '',
-};
 const App = () => {
-  const [name, setName] = useState('');
-  const [state, dispatch] = useReducer(reducer, defaultState);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (name) {
-      const newItem = { id: new Date().getTime().toString(), name };
-      dispatch({ type: 'ADD_ITEM', payload: newItem });
-    } else {
-      dispatch({ type: 'NO_VALUE' });
-    }
-  };
-  const closeModal = () => {
-    dispatch({ type: 'CLOSE_MODAL' });
+  const [people, setPeople] = useState(data);
+  console.log(people);
+  const handleDelete = (id) => {
+    setPeople((people) => {
+      return people.filter((person) => person.id !== id);
+    });
   };
   return (
     <>
-      <h2>useReducer</h2>
-      {state.isModalOpen && (
-        <Modal closeModal={closeModal} modalContent={state.modalContent} />
-      )}
+      <h1>prop drilling</h1>
+      <div>
+        <List people={people} handleDelete={handleDelete} />
+      </div>
+    </>
+  );
+};
 
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-      {state.people.map((person) => {
+const List = ({ people, handleDelete }) => {
+  return (
+    <>
+      {people.map((person) => {
         return (
           <div key={person.id}>
-            <h3>{person.name}</h3>
-            <button
-              type="button"
-              onClick={() => dispatch({ type: 'REMOVE_ITEM', payload:person.id })}
-            >
-              remove
-            </button>
+            <SinglePerson {...person} handleDelete={handleDelete} />
           </div>
         );
       })}
+    </>
+  );
+};
+
+const SinglePerson = ({ id, name, handleDelete }) => {
+  return (
+    <>
+      <h3>single item</h3>
+      <h2>{name}</h2>
+      <button 
+      type='button'
+      onClick={()=>handleDelete(id)}> delete</button>
     </>
   );
 };
